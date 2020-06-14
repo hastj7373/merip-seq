@@ -6,7 +6,14 @@ driving force."
 cutadapt -m 18 -a GATCGTCGGACTGTAGAACTCTGAAC  -g CCTTGGCACCCGAGAATTCCA -o output_fastq input_fastq
 
 *STAR
+/home/omics/DATA2/kiwon/Tools/STAR-2.5.3a/bin/Linux_x86_64/STAR --runMode genomeGenerate --genomeDir ./ --genomeFastaFiles L1.fa --genomeSAindexNbases 5
 /home/omics/DATA2/05_kiwon/Tools/STAR-2.5.3a/bin/Linux_x86_64/STAR --genomeDir /home/omics/DATA2/08_hyunchul/omics/m6a/L1/ --readFilesIn cut_merip_2-1.1fastq cut_merip_2-1.2.fastq --outSAMtype BAM SortedByCoordinate --outFileNamePrefix test_adap --runThreadN 20
+
+*MACS
+macs2 callpeak -t m6a_bam -c input_bam
+
+*RSEM
+rsem-calculate-expression -p 30 --paired-end --bam --no-bam-output m2Aligned.toTranscriptome.out.bam ucsc_rsem m2
 
 *peak plotting
 ggplot(data=tt, aes(x=pos, y=Y,color=factor(G))) + geom_line(size=1) +  geom_area(aes(fill=factor(G),group=factor(G)),position="identity",alpha=0.6) +  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + scale_fill_manual(values=c("red", "blue")) + scale_colour_manual(values=c("red","blue")) + scale_x_continuous(breaks=seq(0,8302,1000))
